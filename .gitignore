@@ -1,0 +1,15 @@
+_*
+*.d
+*.o
+*.asm
+*.sym
+*.out
+*.img
+*.S
+
+xv6/xv6-public/bootblock
+xv6/xv6-public/entryother
+xv6/xv6-public/initcode
+xv6/xv6-public/kernel
+xv6/xv6-public/vectors.S
+xv6/xv6-public/mkfs
