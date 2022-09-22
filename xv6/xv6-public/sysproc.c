@@ -7,6 +7,9 @@
 #include "mmu.h"
 #include "proc.h"
 
+// TODO: remove this
+#include "user.h"
+
 int
 sys_fork(void)
 {
@@ -88,4 +91,18 @@ sys_uptime(void)
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+int
+sys_trace(void)
+{
+  printf(1, "Got to sysproc's `sys_trace!`");
+  return 0;
+}
+
+int
+sys_getcount(void)
+{
+  printf(1, "Got to sysproc's `sys_getcount`");
+  return 0;
 }
