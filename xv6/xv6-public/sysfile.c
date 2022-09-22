@@ -282,6 +282,25 @@ create(char *path, short type, short major, short minor)
   return ip;
 }
 
+const char* trace_pathname;
+int trace_counter;
+int trace_enable = 0; // starts as false
+int trace(const char *pathname)
+{
+  // Check if bad pathname
+  if (!pathname)
+    return 1;
+  trace_pathname = pathname;
+  trace_counter = 0;
+  trace_enable = 1;
+  return 0;
+}
+
+int getcount(void)
+{
+  return trace_counter;
+}
+
 int
 sys_open(void)
 {
