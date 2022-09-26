@@ -13,3 +13,9 @@ xv6/xv6-public/initcode
 xv6/xv6-public/kernel
 xv6/xv6-public/vectors.S
 xv6/xv6-public/mkfs
+xv6/xv6-public/.vscode/settings.json
+xv6/xv6-public/tests-out
+Makefile.test
+
+test_*
+

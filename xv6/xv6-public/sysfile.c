@@ -282,21 +282,65 @@ create(char *path, short type, short major, short minor)
   return ip;
 }
 
-const char* trace_pathname;
+char*
+strcpy(char *s, const char *t)
+{
+  char *os;
+
+  os = s;
+  while((*s++ = *t++) != 0)
+    ;
+  return os;
+}
+
+int
+strcmp(const char *p, const char *q)
+{
+  while(*p && *p == *q)
+    p++, q++;
+  return (uchar)*p - (uchar)*q;
+}
+
+// Globals for trace
+char* trace_pathname;
 int trace_counter;
 int trace_enable = 0; // starts as false
-int trace(const char *pathname)
+
+int sys_trace(void)
 {
+  char* pathname;
+
+  // cprintf("sys_trace: Got to sys_trace\n");
+
+  // Check if null pointer
+  if(argstr(0, &pathname) < 0)
+    return -1;
+
+  // cprintf("sys_trace: Tracing path %s\n", pathname);
+  // cprintf("sys_trace: Testing if strcmp works : %d\n", strcmp("helloworld", "helloworld"));
+  // char* source_str = "OS is hell pls help me";
+  // char my_cpy[strlen(source_str)];
+  // strcpy(my_cpy, source_str);
+  // cprintf("sys_trace: Testing strcpy : %s\n", my_cpy);
+
+  char cpy[strlen(pathname)];
+  strcpy(cpy, pathname);
+  trace_pathname = cpy;
+  // cprintf("sys_trace: Updating `trace_pathname` to : %s\n", trace_pathname);
+
   // Check if bad pathname
   if (!pathname)
     return 1;
+  
   trace_pathname = pathname;
   trace_counter = 0;
   trace_enable = 1;
+
+
   return 0;
 }
 
-int getcount(void)
+int sys_getcount(void)
 {
   return trace_counter;
 }
@@ -311,6 +355,12 @@ sys_open(void)
 
   if(argstr(0, &path) < 0 || argint(1, &omode) < 0)
     return -1;
+
+  if (trace_enable == 1 && strcmp(trace_pathname, path) == 0){
+    // cprintf("Detected that we are opening `%s`, incrementing\n", path);
+    trace_counter++;
+  }
+  
 
   begin_op();
 
