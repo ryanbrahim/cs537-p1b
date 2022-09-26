@@ -302,7 +302,7 @@ strcmp(const char *p, const char *q)
 }
 
 // Globals for trace
-char* trace_pathname;
+char trace_pathname[257];
 int trace_counter;
 int trace_enable = 0; // starts as false
 
@@ -323,16 +323,13 @@ int sys_trace(void)
   // strcpy(my_cpy, source_str);
   // cprintf("sys_trace: Testing strcpy : %s\n", my_cpy);
 
-  char cpy[strlen(pathname)];
-  strcpy(cpy, pathname);
-  trace_pathname = cpy;
+  strcpy(trace_pathname, pathname);
   // cprintf("sys_trace: Updating `trace_pathname` to : %s\n", trace_pathname);
 
   // Check if bad pathname
   if (!pathname)
     return 1;
   
-  trace_pathname = pathname;
   trace_counter = 0;
   trace_enable = 1;
 
